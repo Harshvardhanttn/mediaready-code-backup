@@ -1,0 +1,24 @@
+module "eks" {
+  source                  = "./eks"
+  subnet_ids              = var.app-subnet_ids
+  environment             = var.Environment
+  logging                 = var.logging
+  project_name_prefix     = var.project_name_prefix
+  endpoint_private_access = var.endpoint_private_access
+  #ami_type                = var.ami_type
+  node_role               = var.node_role
+  tags                    = var.tags
+  vpc_security_group_ids  = var.vpc_security_group_ids
+  ebs_optimized_support   = var.ebs_optimized_support
+  node_subnet_ids         = var.app-subnet_ids
+  security_groups_node    = var.security_groups_node
+  kube_version            = var.kube_version
+  cluster_role            = var.cluster_role
+  nodes                   = var.nodes
+  vpc_environment         = var.vpc_environment
+  common_tag              = var.common_tag
+  vpc_id                  = var.vpc_id
+  service_ipv4_cidr       = var.service_ipv4_cidr
+  security_groups_cluster = var.security_groups_cluster
+  LT_tag                  = var.LT_tag
+}
