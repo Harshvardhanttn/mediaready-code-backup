@@ -1,0 +1,5 @@
+owner = "harsh.vardhan@tothenew.com"
+environment_name = "dev"
+project_name = "mediaready"
+instance_type = "t3a.large"
+region = ""

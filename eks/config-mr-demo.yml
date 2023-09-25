@@ -1,0 +1,91 @@
+workspaces:
+  mr-devops:
+    aws:
+      role: InfraDeployAccess
+      account_id: 567431100416
+      region: ap-south-1
+    account_name: internal-mr
+    key_name: "terraform-basic"
+    project_name: mediaready
+    environment_name: dev
+    hosted_zone: "videoready.tv"
+    eks_cluster:
+      name: "mr-cluster"
+      version: "1.24"
+      min_size: 3
+      desired_size: 3
+      max_size: 12 
+      instance_type: "c5.4xlarge"
+      is_mixed_instance_policy: false
+      http_token_option: "optional"
+      addons:
+        aws-ebs-csi-driver:
+          resolve_conflicts: "OVERWRITE"
+        vpc-cni:
+          resolve_conflicts: "OVERWRITE"
+      override:
+      - instance_type: "c5.4xlarge"
+        weighted_capacity: "1"
+      - instance_type: "c5.4xlarge"
+        weighted_capacity: "2"
+      instances_distribution:
+        on_demand_base_capacity: 0
+        on_demand_percentage_above_base_capacity: 20
+        spot_allocation_strategy: "capacity-optimized"
+      block_device_mappings:
+        xvda:
+          device_name: "/dev/xvda"
+          ebs:
+            volume_size: 50
+            volume_type: "gp3"
+            iops: 3000
+            throughput: 150
+            encrypted: true
+            delete_on_termination: true
+      instances_distribution_override:
+        - instance_type: "t2.medium"
+          weighted_capacity: 1
+        - instance_type: "t3.medium"
+          weighted_capacity: 1
+        - instance_type: "t3.large"
+          weighted_capacity: 2
+      cluster_security_group:
+        cluster_rule_ingress:
+          description: "inbound vpc"
+          protocol: "tcp"
+          from_port: 0
+          to_port: 65535
+          type: "ingress"
+          cidr_blocks:
+            - "10.0.0.0/16"
+        cluster_rule_egress:
+          description: "outbound vpc"
+          protocol: "-1"
+          from_port: 0
+          to_port: 65535
+          type: "egress"
+          cidr_blocks:
+            - "10.0.0.0/16"
+      node_security_group:
+        node_rules_ingress:
+          description: "inbound vpc"
+          protocol: "tcp"
+          from_port: 0
+          to_port: 65535
+          type: "ingress"
+          cidr_blocks:
+            - "10.0.0.0/16"
+        node_rules_egress:
+          description: "outbound vpc"
+          protocol: "-1"
+          from_port: 0
+          to_port: 65535
+          type: "egress"
+          cidr_blocks:
+            - "0.0.0.0/0"
+      ingress_sg_name: "ingress-sg"
+      secrets-store-csi:
+        enableSecretRotation: true
+        syncSecretEnabled: true
+        chart_version: "1.2.4"
+        ascp_chart_version: "0.0.3"

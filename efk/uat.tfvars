@@ -1,0 +1,6 @@
+owner = "harsh.vardhan@tothenew.com"
+environment_name = "uat"
+project_name = "mediaready"
+instance_type = "m5a.large"
+key_name = ""
+region = ""

@@ -1,0 +1,10 @@
+key_name         = "vr-infra"
+instance_type    = "t3.medium"
+region           = ""
+kms_key_desc     = "key for queue"
+deletion_window_in_days = "7"
+owner = "harsh.vardhan@tothenew.com"
+environment_name = "uat"
+project_name = "mediaready"
+queue_list = ["search-new","search-mr"]
+exchange_list = ["search-exchange","search-mr","search-new"]
